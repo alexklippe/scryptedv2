@@ -6,6 +6,7 @@
     <title>Добро пожаловать</title>
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
     <link rel="stylesheet" type="text/css" href="resources/sign-in.css">
+	<script src="js/axios.min.js" ></script>
 </head>
 <body style="background-image: url(https://grandecolife.ru/uploads/cache/lookbook_slide/uploads/media/5b7d020dda1c0/mo1203-rgb.jpg);">
 
@@ -26,29 +27,24 @@
 	</div>
 	<hr>
 	<div class="row medium-8 large-7 columns" style="padding-top: 1.5%; padding-bottom: 1.5%;">
-		<form>
 	 		<div class="sign-in-form">
 			    <h4 class="text-center">Регистрация</h4>
-			    <label for="sign-in-form-username">Имя</label>
-			    <input type="text" class="sign-in-form-username" id="sign-in-form-username">
+			    <label for="sign-in-form-username">Имя и Фамилия</label>
+			    <input type="text" class="sign-in-form-username" id="name">
 			    <label for="sign-in-form-username">Электронная почта</label>
-			    <input type="text" class="sign-in-form-username" id="sign-in-form-username">
+			    <input type="text" class="sign-in-form-username" id="email">
 			    <label for="sign-in-form-password">Пароль</label>
-			    <input type="text" class="sign-in-form-password" id="sign-in-form-password">
+			    <input type="password" class="sign-in-form-password" id="password">
 			    <label for="sign-in-form-password">Повторите пароль</label>
-			    <input type="text" class="sign-in-form-password" id="sign-in-form-password">
-			    <button type="submit" class="sign-in-form-button">Зарегистрироваться</button>
+			    <input type="password" class="sign-in-form-password" id="passwordi">
+			    <button onclick="reg()" type="submit" class="sign-in-form-button">Зарегистрироваться</button>
 	  		</div>
-		</form>
 	</div>
 	<hr>
 	<div class="top-bar" id="realEstateMenu" style="background-color: #3d454f;">
 	  <div class="top-bar-left" style="background-color: #3d454f;">
 	    <ul class="menu" data-responsive-menu="accordion" style="background-color: #3d454f;">
-	      <li class="menu-text" style="color: white;">Контакты</li>
-	      <li><a href="#" style="color: white;">ВКонтакте</a></li>
-	      <li><a href="#" style="color: white;">Facebook</a></li>
-	      <li><a href="#" style="color: white;">8 800 001 01 10</a></li>
+	      
 	    </ul>
 	  </div>
 	  <div class="top-bar-right" style="background-color: #3d454f;">
@@ -57,5 +53,26 @@
 	    </ul>
 	  </div>
 	</div>
+	<script>
+		function reg(){
+			if(document.querySelector('#password').value!=document.querySelector('#passwordi').value){
+				alert('Пароли не совпадают!');
+				return false;
+			}
+			a = JSON.stringify({'mail': document.querySelector('#email').value,'name': document.querySelector('#name').value, 'pass': document.querySelector('#password').value});
+			
+			axios.post('http://130.193.49.118/api/auth/reg',{body: a}).then( (response) => {
+				alert('На указанный вами e-mail отправлено письмо с ссылкой для подтверждения регистрации.');
+				/*if(response.data[0] == 'На указанный вами e-mail отправлено письмо с ссылкой для подтверждения регистрации.'){
+					
+				}else{
+					alert('!');
+				}*/
+			}).catch( (err) => {
+				console.log(err);
+				alert('Ошибка!');
+			});
+		}
+	</script>
 </body>
 </html>

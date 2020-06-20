@@ -1,6 +1,7 @@
 <?php
 $CONNECT = mysqli_connect('localhost', 'admin', 'Proryv12!', 'covidinfo');
 $domen = $_SERVER['SERVER_NAME'];
+include('puny.php');
 if ($_SERVER['REQUEST_URI'] == '/') {
 	$Page = 'index';
 	$Module = '';
@@ -15,8 +16,8 @@ if ($_SERVER['REQUEST_URI'] == '/') {
 if($domen == 'xn--80aaaas3ade3dbfv.xn--p1acf') $domen='130.193.36.149';
 
 switch ($domen){
-	case '130.193.36.149':
-		if ($Page == 'index'): include('index.html');
+	case '130.193.49.118':
+		if ($Page == 'index'): include('page/sign-in.html');
 		elseif ($Page == 'php'): include('info.php');
 		//Front
 		elseif ($Page == 'login'): include('page/log-in.html');
@@ -27,6 +28,7 @@ switch ($domen){
 		elseif ($Page == 'test0'): include('mail/mail.php');
 		//API
 		elseif ($Page == 'api' and $Module=='auth'): include('api/auth.php');
+		elseif ($Page == 'auth' and $Module=='reg'): include('api/auth.php');
 		//elseif ($Page == 'api' and $Module==): include('test.php');
 		
 		//404 error
