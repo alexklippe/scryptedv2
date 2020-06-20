@@ -16,9 +16,13 @@ switch ($domen){
 	case '130.193.36.149':
 		if ($Page == 'index'): include('index.html');
 		elseif ($Page == 'php'): include('info.php');
+		//TEST
 		elseif ($Page == 'test'): include('test.php');
-		//elseif ($Page == 'hr2019' and $Module == 'api'): include('hr2019/api.php');
+		//API
+		elseif ($Page == 'api' and $Module=='auth'): include('api/auth.php');
+		//elseif ($Page == 'api' and $Module==): include('test.php');
 		
+		//404 error
 		else: include('404.php');
 		endif;
 	break;
