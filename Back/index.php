@@ -12,12 +12,19 @@ if ($_SERVER['REQUEST_URI'] == '/') {
 	$Module = array_shift($URL_Parts);
 }
 
+if($domen == 'xn--80aaaas3ade3dbfv.xn--p1acf') $domen='130.193.36.149';
+
 switch ($domen){
 	case '130.193.36.149':
 		if ($Page == 'index'): include('index.html');
 		elseif ($Page == 'php'): include('info.php');
+		//Front
+		elseif ($Page == 'login'): include('page/log-in.html');
+		elseif ($Page == 'reg'): include('page/sign-in.html');
+		elseif ($Page == 'news'): include('page/news.html');
 		//TEST
 		elseif ($Page == 'test'): include('test.php');
+		elseif ($Page == 'test0'): include('mail/mail.php');
 		//API
 		elseif ($Page == 'api' and $Module=='auth'): include('api/auth.php');
 		//elseif ($Page == 'api' and $Module==): include('test.php');
