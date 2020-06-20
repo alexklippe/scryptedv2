@@ -32,7 +32,7 @@ function send_mail_code($email,$name,$code){
 	//scrypted1@xn----7sbbfop6bdeyjc6o.xn--p1ai
 	$mail->addAddress($email, $name);
 	$mail->Subject = 'Регистрация';
-	$body = '<p><strong>Для подверждения почтового адреса, нажмите на ссылку: </strong> <a href="xn--80aaaas3ade3dbfv.xn--p1acf/auth/reg?code='.$code.'&mail='.base64_encode($email).'">клик!</a></p>';
+	$body = '<p><strong>Для подверждения почтового адреса, нажмите на ссылку: </strong> <a href="http://130.193.49.118/auth/reg?code='.$code.'&mail='.base64_encode($email).'">клик!</a></p>';
 	$mail->msgHTML($body);
 	$mail->send();
 }

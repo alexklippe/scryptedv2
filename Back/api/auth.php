@@ -3,12 +3,13 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: POST, GET");
 $serverGet = json_decode(file_get_contents('php://input'), true);
 $_POST = json_decode($serverGet['body'], JSON_UNESCAPED_UNICODE);
+//print_r($_POST);
 
 
 if($Page == 'auth' and $Module=='reg'){
 	if(!isset($_GET['code']) or !isset($_GET['mail'])){
 		echo '<script>alert("Ссылка не действительна!")</script>';
-		header('Location: '. 'http://сасайкудасай.рус/reg');
+		header('Location: '. 'http://130.193.49.118reg');
 		exit;
 	}
 	$mail = base64_decode($_GET['mail']);
@@ -19,10 +20,10 @@ if($Page == 'auth' and $Module=='reg'){
 		setcookie('token', $token);
 		mysqli_query($CONNECT, "INSERT INTO `auth` VALUES ('0','$token','$mail','$time')");
 		mysqli_query($CONNECTi,"UPDATE `user` SET `code`='ok' Where `mail`='$mail'");
-		header('Location: ' . 'https://сасайкудасай.рус/lk');
+		header('Location: ' . 'http://130.193.49.118/lk');
 	}else{
 		echo '<script>alert("Ссылка не действительна!")</script>';
-		header('Location: '. 'https://сасайкудасай.рус/reg');
+		header('Location: '. 'http://130.193.49.118/reg');
 	}
 	exit;
 }

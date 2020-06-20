@@ -59,18 +59,18 @@
 				alert('Пароли не совпадают!');
 				return false;
 			}
-			a = JSON.stringify({'mail': document.querySelector('#email').value,'name': document.querySelector('#name').value, 'pass': document.querySelector('#password').value});
+			a = JSON.stringify({'email': document.querySelector('#email').value,'name': document.querySelector('#name').value, 'pass': document.querySelector('#password').value});
 			
 			axios.post('http://130.193.49.118/api/auth/reg',{body: a}).then( (response) => {
-				alert('На указанный вами e-mail отправлено письмо с ссылкой для подтверждения регистрации.');
-				/*if(response.data[0] == 'На указанный вами e-mail отправлено письмо с ссылкой для подтверждения регистрации.'){
-					
+				if(response.data.length != 1){
+					if(response.data.substr(0,87) == '["На указанный вами e-mail отправлено письмо с ссылкой для подтверждения регистрации."]')
+					alert('На указанный вами e-mail отправлено письмо с ссылкой для подтверждения регистрации.');
 				}else{
-					alert('!');
-				}*/
+					alert(response.data[0]);
+				}
 			}).catch( (err) => {
 				console.log(err);
-				alert('Ошибка!');
+				alert("Error!");
 			});
 		}
 	</script>

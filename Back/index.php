@@ -23,6 +23,7 @@ switch ($domen){
 		elseif ($Page == 'login'): include('page/log-in.html');
 		elseif ($Page == 'reg'): include('page/sign-in.html');
 		elseif ($Page == 'news'): include('page/news.html');
+		elseif ($Page == 'lk'): include('page/lk.php');
 		//TEST
 		elseif ($Page == 'test'): include('test.php');
 		elseif ($Page == 'test0'): include('mail/mail.php');
