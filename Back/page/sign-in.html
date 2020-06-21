@@ -1,3 +1,8 @@
+<?php
+	if(isset($_COOKIE['token'])){
+		header('Location: '. 'http://xn--80aaaas3ade3dbfv.xn--p1acf/lk');
+	}
+	?>
 <!DOCTYPE html>
 <html class="no-js" lang="rus">
 <head>
@@ -41,30 +46,35 @@
 	  		</div>
 	</div>
 	<hr>
-	<div class="top-bar" id="realEstateMenu" style="background-color: #3d454f;">
-	  <div class="top-bar-left" style="background-color: #3d454f;">
-	    <ul class="menu" data-responsive-menu="accordion" style="background-color: #3d454f;">
-	      
-	    </ul>
-	  </div>
-	  <div class="top-bar-right" style="background-color: #3d454f;">
-	    <ul class="menu" style="background-color: #3d454f;">
-	      <li><a class="sign-in-form-button">Напишите нам</a></li>
-	    </ul>
-	  </div>
+	<div class="top-bar" id="realEstateMenu" style="position: fixed;bottom: 0px;width: 100%; background-color: #3d454f;">
+    <div class="top-bar-left" style="background-color: #3d454f;">
+      <ul class="menu" data-responsive-menu="accordion" style="background-color: #3d454f;">Dev by Scrypted © 2020г.</ul>
+    </div>
 	</div>
 	<script>
 		function reg(){
+			if(document.querySelector('#email').value==''){
+				alert('Необходимо ввести адрес электроной почты!');
+				return false;
+			}
+			if(document.querySelector('#name').value==''){
+				alert('Необходимо ввести фамилию и имя!');
+				return false;
+			}
+			if(document.querySelector('#password').value==''){
+				alert('Необходимо ввести пароль!');
+				return false;
+			}
 			if(document.querySelector('#password').value!=document.querySelector('#passwordi').value){
 				alert('Пароли не совпадают!');
 				return false;
 			}
 			a = JSON.stringify({'email': document.querySelector('#email').value,'name': document.querySelector('#name').value, 'pass': document.querySelector('#password').value});
 			
-			axios.post('http://130.193.49.118/api/auth/reg',{body: a}).then( (response) => {
+			axios.post('http://xn--80aaaas3ade3dbfv.xn--p1acf/api/auth/reg',{body: a}).then( (response) => {
 				if(response.data.length != 1){
-					if(response.data.substr(0,87) == '["На указанный вами e-mail отправлено письмо с ссылкой для подтверждения регистрации."]')
-					alert('На указанный вами e-mail отправлено письмо с ссылкой для подтверждения регистрации.');
+					if(response.data.substr(0,86) == '["На указанный вами e-mail отправлено письмо с ссылкой для подтверждения регистрации."')
+					alert('На указанный вами адрес отправлено письмо с ссылкой для подтверждения регистрации.');
 				}else{
 					alert(response.data[0]);
 				}

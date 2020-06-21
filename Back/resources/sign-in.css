@@ -31,7 +31,7 @@
 .sign-in-form-password {
   border-radius: 30px;
   border: none;
-  opacity: .1;
+  opacity: .3;
   transition: all ease .4s;
 }
 
@@ -50,4 +50,23 @@
 .sign-in-form-button:hover {
   background-color: #44c8ed;
   border-color: #44c8ed;
+}
+
+#save{
+	background-color: #44c844;
+	color: black;
+	cursor: pointer;
+	text-align: center;
+}
+
+#dis{
+	background-color: #c84444;
+	color: black;
+	cursor: pointer;
+	text-align: center;
+}
+
+#apptime{
+	color: black;
+	border-radius: 25px;
 }

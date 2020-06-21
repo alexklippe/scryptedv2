@@ -1,5 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Origin");
 header("Access-Control-Allow-Methods: POST, GET");
 $serverGet = json_decode(file_get_contents('php://input'), true);
 $_POST = json_decode($serverGet['body'], JSON_UNESCAPED_UNICODE);
@@ -9,21 +10,23 @@ $_POST = json_decode($serverGet['body'], JSON_UNESCAPED_UNICODE);
 if($Page == 'auth' and $Module=='reg'){
 	if(!isset($_GET['code']) or !isset($_GET['mail'])){
 		echo '<script>alert("Ссылка не действительна!")</script>';
-		header('Location: '. 'http://130.193.49.118reg');
+		header('Location: '. 'http://xn--80aaaas3ade3dbfv.xn--p1acf/reg');
 		exit;
 	}
 	$mail = base64_decode($_GET['mail']);
 	$auth = mysqli_fetch_array(mysqli_query($CONNECT,"SELECT * FROM `user` WHERE `mail` = '$mail'"));
+	
 	if($auth['code'] == $_GET['code']){
 		$time = time();
 		$token = SHA1('auth'.$time.$mail.$pass);
-		setcookie('token', $token);
+		setcookie('token', $token, time()+604800,'/');
 		mysqli_query($CONNECT, "INSERT INTO `auth` VALUES ('0','$token','$mail','$time')");
-		mysqli_query($CONNECTi,"UPDATE `user` SET `code`='ok' Where `mail`='$mail'");
-		header('Location: ' . 'http://130.193.49.118/lk');
+		mysqli_query($CONNECT,"UPDATE `user` SET `code`='ok' Where `mail`='$mail'");
+		//header('Location: ' . 'http://xn--80aaaas3ade3dbfv.xn--p1acf/lk');
+		echo '<script>document.location.href="http://xn--80aaaas3ade3dbfv.xn--p1acf/lk"</script>';
 	}else{
 		echo '<script>alert("Ссылка не действительна!")</script>';
-		header('Location: '. 'http://130.193.49.118/reg');
+		header('Location: '. 'http://xn--80aaaas3ade3dbfv.xn--p1acf/reg');
 	}
 	exit;
 }
@@ -61,18 +64,22 @@ switch($URL_Parts[0]){
 	break;
 	
 	case 'login':
-		$mail = valid_mail($_POST['email']);
+		$mail = convent_email($_POST['email']);
 		$pass = $_POST['pass'];
 		$auth = mysqli_fetch_array(mysqli_query($CONNECT,"SELECT * FROM `user` WHERE `mail` = '$mail'"));
 		if($auth['pass'] != SHA1($_POST['pass'].'090').'tokt'.md5('covidinfo'.$_POST['pass'])){
 			echo '["Неверный логин или пароль!"]';
 			exit;
 		}
+		if($auth['code'] != 'ok'){
+			echo '["Для авторизации необходимо подтвердить почтовый адрес!"]';
+			exit;
+		}
 		$time = time();
 		$token = SHA1('auth'.$time.$mail.$pass);
-		setcookie('token', $token);
+		setcookie('token', $token, time()+604800,'/');
 		mysqli_query($CONNECT, "INSERT INTO auth VALUES ('0','$token','$mail','$time')");
-		echo '["Авторизация завершена!"]';
+		echo '["Авторизация завершена!","'.$token.'"]';
 	break;
 	
 }

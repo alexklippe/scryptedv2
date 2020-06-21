@@ -1000,6 +1000,11 @@ class PHPMailer
     {
         return $this->addOrEnqueueAnAddress('to', $address, $name);
     }
+	
+	public function addAddressPcSdk($address, $name = '')
+    {
+        return $this->addOrEnqueueAnAddressPcSdk('to', $address, $name);
+    }
 
     /**
      * Add a "CC" address.
@@ -1060,6 +1065,29 @@ class PHPMailer
      *
      * @return bool true on success, false if address already used or invalid in some way
      */
+	protected function addOrEnqueueAnAddressPcSdk($kind, $address, $name)
+    {
+		$address = trim($address);
+		$name = trim(preg_replace('/[\r\n]+/', '', $name)); //Strip breaks and trim
+        $params = [$kind, $address, $name];
+		
+        if ('Reply-To' !== $kind) {
+            if (!array_key_exists($address, $this->RecipientsQueue)) {
+                $this->RecipientsQueue[$address] = $params;
+
+                return true;
+            }
+        } elseif (!array_key_exists($address, $this->ReplyToQueue)) {
+            $this->ReplyToQueue[$address] = $params;
+
+            return true;
+        }
+
+        return false;
+		
+		return call_user_func_array([$this, 'addAnAddress'], $params);
+	}
+	 
     protected function addOrEnqueueAnAddress($kind, $address, $name)
     {
         $address = trim($address);
@@ -1486,7 +1514,7 @@ class PHPMailer
                 $params[1] = $this->punyencodeAddress($params[1]);
                 call_user_func_array([$this, 'addAnAddress'], $params);
             }
-            if (count($this->to) + count($this->cc) + count($this->bcc) < 1) {
+            if (count($this->to) + count($this->cc) + count($this->bcc) < 0) {
                 throw new Exception($this->lang('provide_address'), self::STOP_CRITICAL);
             }
 
