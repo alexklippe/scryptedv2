@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_URI'] == '/') {
 	$Module = array_shift($URL_Parts);
 }
 
-if($domen == 'xn--80aaaas3ade3dbfv.xn--p1acf') $domen='130.193.36.149';
+if($domen == 'xn--80aaaas3ade3dbfv.xn--p1acf') $domen='130.193.49.118';
 
 switch ($domen){
 	case '130.193.49.118':
@@ -37,6 +37,7 @@ switch ($domen){
 		endif;
 	break;
 	
-	
+	default:
+		include('404.php');
 }
 ?>

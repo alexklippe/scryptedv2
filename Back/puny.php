@@ -48,9 +48,9 @@ function convent_email($email){
 	$email = strtolower($email);
 	$mail = explode('@',$email);
 	$math = '~^[[:ascii:]]+$~u';
-	if(!preg_match($math, $mail[0])){
+	/*if(!preg_match($math, $mail[0])){
 		return '=?utf-8?B?'.base64_encode($email).'?=';
-	}
+	}*/
 	if(!preg_match($math, $mail[1])){
 		$mail[1] = idn_to_ascii($mail[1]);
 	}
@@ -62,6 +62,16 @@ function convent_email($email){
 		$tt = $tt[count($tt)-1];
 	}
 	testDOM($tt);
+	return $mail[0].'@'.$mail[1];
+}
+
+function deconvent_email($email){
+	$email = strtolower($email);
+	$mail = explode('@',$email);
+	$math = '~^[[:ascii:]]+$~u';
+	if(!preg_match($math, $mail[1])){
+		$mail[1] = idn_to_utf8($mail[1]);
+	}
 	return $mail[0].'@'.$mail[1];
 }
 
